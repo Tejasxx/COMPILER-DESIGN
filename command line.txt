@@ -1,16 +1,17 @@
 %{
-#include<stdio.h>
-int ln=0;
+int c;
 %}
 %%
-.* {ln++;
-fprintf(yyout,"\n%d:%s",ln,yytext);}
+"//"[a-zA-Z0-9]+"//"|"/*"[a-zA-Z0-9]+"*/" {c++; printf("it is command line",yytext);}
+.+ {printf("input is not command line");}
 %%
-int yywrap(){}
+int yywrap(void){
+return 1;
+}
 int main()
 {
-yyin=fopen("simple.txt","r");
-yyout=fopen("out.txt","w");
+printf("enter:");
 yylex();
-return 0;
+printf("number of comment lines %d\n",c);
+return 0;
 }
